@@ -20,6 +20,7 @@ BOOTSEG = 0x07c0
 _start:
 	movl $stack_top, %esp
 	call init_mem
+	call t_init
 	call kernel
 	call _init
 	cli

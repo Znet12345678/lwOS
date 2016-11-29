@@ -4,7 +4,7 @@ NASM = nasm -f elf
 CC=i386-elf-gcc
 LDFLAGS = 
 CFLAGS = -std=gnu99 -nostdlib -ffreestanding -Iinclude
-OBJ = xw.o inportsl.o str.o boot.o crti.o crtn.o kprintf.o tty.o kernel.o kmalloc.o inportb.o fat.o ata.o panic.o lfs.o libpart.o
+OBJ = xw.o inportsl.o str.o boot.o crti.o crtn.o kprintf.o tty.o kmalloc.o inportb.o fat.o ata.o panic.o lfs.o libpart.o
 all:
 	${CC} -c libasm/inportsl.c -o inportsl.o ${CFLAGS}
 	${CC} -c libasm/xw.c -o xw.o ${CFLAGS}
@@ -22,4 +22,6 @@ all:
 	${NASM} libasm/inportb.asm -o inportb.o
 	${CC} -c lfs/lfs.c -o lfs.o ${CFLAGS}
 	${CC} -c libpart/libpart.c -o libpart.o ${CFLAGS}
-	${CC} ${OBJ} $(CRTBEGIN) $(CRTEND) -o kernel.elf -nostdlib -T linker.ld
+	${CC} -c kernel.fat.c -o kernel.fat.o ${CFLAGS}
+	${CC} ${OBJ} $(CRTBEGIN) $(CRTEND) kernel.o -o kernel.lfs.elf -nostdlib -T linker.ld
+	${CC} ${OBJ} ${CRTBEGIN} ${CRTEND} kernel.fat.o -o kernel.fat.elf -nostdlib -T linker.ld
