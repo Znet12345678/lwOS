@@ -4,14 +4,16 @@
 #include <stdio.h>
 #include <string.h>
 int __mkfs_lfs(){
-	struct init_blk *init = kmalloc(sizeof(struct init_blk *) * sizeof(*init));
+	struct init_blk *init = kmalloc(512);
 	init->alloc = 1;
 	init->fsvers = 1;
 	init->first_dir = 2;
+	//char *buf = kmalloc(1024);
 	char buf[512] = {init->alloc,init->fsvers,init->first_dir >> 24,init->first_dir >> 16,init->first_dir >> 8,init->first_dir,[6 ... 511]0};
 	if(ata_write_master(buf,0) < 0)
 		panic();
-	struct dirent_lfs *rootdir = kmalloc(sizeof(struct dirent_lfs *) * sizeof(*rootdir));
+	struct dirent_lfs *rootdir = kmalloc(512);
+	rootdir->name = kmalloc(1024);
 	rootdir->alloc = 1;
 	rootdir->namelen = 1;
 	kstrcpy(rootdir->name,"/");
@@ -49,6 +51,7 @@ int __mkfs_lfs_part(int partnum){
         struct dirent_lfs *rootdir = kmalloc(sizeof(struct dirent_lfs *) * sizeof(*rootdir));
         rootdir->alloc = 1;
         rootdir->namelen = 1;
+	rootdir->name = kmalloc(1024);
         kstrcpy(rootdir->name,"/");
         rootdir->next_file_offset = 0;
         rootdir->next_dir_offset = 0;
@@ -135,6 +138,7 @@ int __lfs_write(char *dir,char *name,int *cont,int n){
 		struct dirent_lfs *ent = __lfs_parse_dirent(i);
 		if(strcmp(ent->name,name) == 0)
 			break;
+		kprintf("Ignoring entry %s\n",ent->name);
 		i++;
 	}
 }

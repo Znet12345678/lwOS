@@ -2,6 +2,12 @@
 #include "libfat/fat.h"
 void kernel(){
 	kprintf("Loading...\n");
+	char *test = kmalloc(1024);
+	free(test);
+	char *_test =kmalloc(1024);
+	kstrcpy(_test,"Malloc works!");
+	kprintf("%s\n",_test);
+	free(_test);
 	struct fat_bpb *bpb = parse_bpb();
 	int type = fat_type();
         if(type == FAT12)

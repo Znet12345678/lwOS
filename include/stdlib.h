@@ -18,4 +18,5 @@ struct memory_data{
 int getlba(int partnum);
 int write_part(uint8_t *buf,int lba,int partnum);
 int read_part(uint8_t *buf,int lba,int partnum);
+void panic();
 #endif

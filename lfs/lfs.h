@@ -8,7 +8,7 @@ struct init_blk{
 struct dirent_lfs{
 	int alloc;
 	int namelen;
-	char name[255];
+	char *name;
 	int next_file_offset;
 	int next_dir_offset;
 	int next_file_lba;
