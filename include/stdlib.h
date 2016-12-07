@@ -4,6 +4,7 @@
 #define MEM_SIG 0x7F
 #include <stdint.h>
 void *kmalloc(size_t size);
+void free(void *v);
 struct mem_seg{
 	int sig;
 	int size;

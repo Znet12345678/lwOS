@@ -2,13 +2,15 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include <io.h>
+#define NULL ((char*)0)
 /*
 *Header:
 *next mem pntr
 *h.size
 *h.free?
 */
-int free(void *v){
+
+void free(void *v){
 	char *mem = v;
 	*mem--;
 	*mem--;
