@@ -19,7 +19,7 @@ uint16_t *tbuff;
 void t_init(){
     tr = 0;
     tc = 0;
-    tcolour = mkcolour(COLOUR_WHITE,COLOUR_BLACK);
+    tcolour = mkcolour(COLOUR_WHITE,COLOUR_BLUE);
     tbuff = VMEM;
     for(int y = 0; y < VH;y++){
         for(int x = 0;x < VW;x++){
